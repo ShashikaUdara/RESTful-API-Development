@@ -1,7 +1,7 @@
 #pragma once
 
-#include <unorderd_map>
-namespace learning
+#include <unordered_map>
+namespace learning1
 {
     enum class CharacterSize
     {
@@ -9,4 +9,13 @@ namespace learning
         kMedium,
         kLarge,
     };
-}   // namespace learning
+
+    std::unordered_map<CharacterSize, const char *> character_size_to_string(
+        {
+            {CharacterSize::kSmall, "small"},
+            {CharacterSize::kMedium, "medium"},
+            {CharacterSize::kLarge, "large"},
+        }
+    );
+
+};   // namespace learning
