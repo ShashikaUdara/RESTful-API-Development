@@ -74,7 +74,22 @@ namespace learning
 
         bool RemoveCharacterFromDb(const std::string &character_id)
         {
-            return true;
+            mongocxx::collection collection = db[kCollectionName];
+            auto builder = bsoncxx::builder::stream::document{};
+            bsoncxx::oid document_id(character_id);
+
+            bsoncxx::document::value query_doc = 
+                builder << "_id" << document_id << bsoncxx::builder::stream:: finalize;
+
+            bsoncxx::stdx::optional<mongocxx::result::delete_result> maybe_result = 
+                collection.delete_one(query_doc.view());
+
+            if(maybe_result)
+            {
+                return maybe_result->deleted_count() == 1;
+            }
+
+            return false;
         }
     };
 } // nmaespace learning
